@@ -23,14 +23,16 @@ public class RestApi(
         }
         catch (JsonSerializationException)
         {
-            return ApiResponse.Error("Failed to parse request").ToBadRequestResult();
+            return ApiResponse.Error("Failed to parse request")
+                .ToActionResult(StatusCodes.Status400BadRequest);
         }
 
         return request.Data switch
         {
-            "true" => ApiResponse.Ok().ToOkResult(),
+            "true" => ApiResponse.Ok().ToActionResult(StatusCodes.Status200OK),
             "false" => Redirect("https://www.google.com"),
-            _ => ApiResponse.Error("Unexpected value").ToBadRequestResult()
+            _ => ApiResponse.Error("Unexpected value")
+                .ToActionResult(StatusCodes.Status400BadRequest)
         };
     }
     

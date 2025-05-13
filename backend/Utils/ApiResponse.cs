@@ -8,16 +8,14 @@ public class ApiResponse
     public string? Message { get; init; }
     public bool Success { get; init; }
     public string? Data { get; init; }
-    
-    public IActionResult ToOkResult()
+
+    public IActionResult ToActionResult(int status)
     {
-        return new OkObjectResult(this.ToJson());
-    }
-    
-    public IActionResult ToBadRequestResult()
-    {
-        return new BadRequestObjectResult(this.ToJson());
-    }
+        return new ObjectResult(this.ToJson())
+        {
+            StatusCode = status
+        };
+    } 
 
     public static ApiResponse Ok()
     {
@@ -38,7 +36,7 @@ public class ApiResponse
         };
     }
 
-    public static ApiResponse Error(string message)
+    public static ApiResponse Error(string? message = null)
     {
         return new ApiResponse
         {
