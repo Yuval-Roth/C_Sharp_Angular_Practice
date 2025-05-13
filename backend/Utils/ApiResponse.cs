@@ -41,7 +41,7 @@ public class ApiResponse
         return new ApiResponse
         {
             Success = true,
-            Data = data.Select(x => x.ToJson()).ToList()
+            Data = data.Select(x => x!.ToJson()).ToList()
         };
     }
 

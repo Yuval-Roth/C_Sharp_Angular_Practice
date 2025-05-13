@@ -8,6 +8,7 @@ public class ApiRequest
         LOGIN,
         LOGOUT,
         REGISTER,
+        ADD_COMMENT,
     }
     
     public RequestType Type { get; init; }

@@ -1,20 +1,18 @@
+using backend.Repository;
 using backend.Utils;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace backend.Controllers;
 
 [ApiController]
-[Route("")]
+[Route("comments")]
 public class RestApi(
-    ILogger<RestApi> logger
+    CommentsDao dao
 ) : ControllerBase
 {
-
-    private readonly ILogger<RestApi> _logger = logger;
-
-    [HttpPost(Name = "")]
-    public IActionResult Post()
+    
+    [HttpPost("submit")]
+    public IActionResult Submit()
     {
         ApiRequest request;
         try
@@ -27,16 +25,32 @@ public class RestApi(
                 .ToActionResult(StatusCodes.Status400BadRequest);
         }
 
-        return request.Data switch
+        if (request.Type != ApiRequest.RequestType.ADD_COMMENT)
         {
-            "true" => ApiResponse.Ok().ToActionResult(StatusCodes.Status200OK),
-            "false" => Redirect("https://www.google.com"),
-            "error" => ApiResponse.Error().ToActionResult(StatusCodes.Status500InternalServerError),
-            _ => ApiResponse.Ok($"You sent me: {request.Data}")
-                .ToActionResult(StatusCodes.Status400BadRequest)
-        };
+            return ApiResponse.Error("Invalid request type")
+                .ToActionResult(StatusCodes.Status400BadRequest);
+        }
+
+        if (request.Data == null)
+        {
+            return ApiResponse.Error("No data provided")
+                .ToActionResult(StatusCodes.Status400BadRequest);
+        }
+        
+        var comment = JsonUtils.FromJson<Comment>(request.Data);
+
+        if (dao.AddComment(comment))
+        {
+            return ApiResponse.Ok().ToActionResult(StatusCodes.Status200OK);    
+        } 
+        return ApiResponse.Error("Failed to add comment")
+            .ToActionResult(StatusCodes.Status500InternalServerError);
     }
     
-    
-    
+    [HttpGet("fetch")]
+    public IActionResult Fetch()
+    {
+        var comments = dao.GetAllComments(); 
+        return ApiResponse.Ok(comments).ToActionResult(StatusCodes.Status200OK);
+    }
 }
