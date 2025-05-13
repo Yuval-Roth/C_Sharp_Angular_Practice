@@ -31,7 +31,7 @@ public class RestApi(
         {
             "true" => ApiResponse.Ok().ToActionResult(StatusCodes.Status200OK),
             "false" => Redirect("https://www.google.com"),
-            _ => ApiResponse.Error("Unexpected value")
+            _ => ApiResponse.Ok($"You sent me: {request.Data}")
                 .ToActionResult(StatusCodes.Status400BadRequest)
         };
     }

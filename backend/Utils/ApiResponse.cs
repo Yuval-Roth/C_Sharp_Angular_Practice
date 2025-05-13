@@ -7,7 +7,7 @@ public class ApiResponse
 {
     public string? Message { get; init; }
     public bool Success { get; init; }
-    public string? Data { get; init; }
+    public List<string>? Data { get; init; }
 
     public IActionResult ToActionResult(int status)
     {
@@ -32,7 +32,16 @@ public class ApiResponse
         return new ApiResponse
         {
             Success = true,
-            Data = data.ToJson()
+            Data = [data.ToJson()]
+        };
+    }
+    
+    public static ApiResponse Ok<T>(List<T> data)
+    {
+        return new ApiResponse
+        {
+            Success = true,
+            Data = data.Select(x => x.ToJson()).ToList()
         };
     }
 
