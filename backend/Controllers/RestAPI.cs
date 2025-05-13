@@ -21,7 +21,7 @@ public class RestApi(
         {
             request = ApiRequest.FromBody(Request.Body);
         }
-        catch (JsonSerializationException)
+        catch (Exception)
         {
             return ApiResponse.Error("Failed to parse request")
                 .ToActionResult(StatusCodes.Status400BadRequest);
@@ -31,6 +31,7 @@ public class RestApi(
         {
             "true" => ApiResponse.Ok().ToActionResult(StatusCodes.Status200OK),
             "false" => Redirect("https://www.google.com"),
+            "error" => ApiResponse.Error().ToActionResult(StatusCodes.Status500InternalServerError),
             _ => ApiResponse.Ok($"You sent me: {request.Data}")
                 .ToActionResult(StatusCodes.Status400BadRequest)
         };
