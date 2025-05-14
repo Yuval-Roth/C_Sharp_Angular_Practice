@@ -1,0 +1,17 @@
+<div class="page">
+  <h1 class="page-title">Comments</h1>
+  <div #commentListContainer class="comments-list">
+    <mat-list>
+      @let _comments = comments();
+      @for(comment of _comments; track $index) {
+        <mat-list-item>{{comment.Timestamp}}: {{comment.Content}}</mat-list-item>
+      }
+    </mat-list>
+  </div>
+  <mat-form-field class="comments-form-field">
+    <mat-label>Write a comment</mat-label>
+    <textarea #commentInput class="form-content" matInput></textarea>
+  </mat-form-field>
+  <button mat-raised-button (click)="addComment()">Submit</button>
+</div>
+

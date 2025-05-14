@@ -12,7 +12,20 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<CommentsDao>();
 builder.Services.AddSingleton<ApiRequestHandler>();
 
+builder.Services.AddCors(options =>
+    options.AddPolicy(
+        "Angular",
+        policyBuilder => 
+            policyBuilder.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+        )
+);
+
 var app = builder.Build();
+
+app.UseCors("Angular");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
