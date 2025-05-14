@@ -2,7 +2,7 @@ using backend.Business;
 using backend.Utils;
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend.Controllers;
+namespace backend.Api.Controllers;
 
 [ApiController]
 [Route("comments")]

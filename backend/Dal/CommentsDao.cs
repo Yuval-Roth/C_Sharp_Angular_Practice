@@ -1,6 +1,6 @@
 ﻿using Npgsql;
 
-namespace backend.Repository;
+namespace backend.Dal;
 
 public class CommentsDao
 {
