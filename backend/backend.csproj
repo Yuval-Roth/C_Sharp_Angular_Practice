@@ -17,4 +17,20 @@
       <Folder Include="Api\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="db\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="db\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="db\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="db\**" />
+    </ItemGroup>
+
 </Project>
