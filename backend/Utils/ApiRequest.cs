@@ -5,17 +5,19 @@ public class ApiRequest
     
     public enum RequestType 
     {
-        LOGIN,
-        LOGOUT,
-        REGISTER,
-        ADD_COMMENT,
+        Login,
+        Logout,
+        Register,
+        AddComment,
+        FetchComments,
     }
     
     public RequestType Type { get; init; }
-    public string? Data { get; init; }
     public string? Username { get; init; }
     public string? Password { get; init; }
     public string? Token { get; init; }
+    public string? Content { get; init; }
+    public string? Timestamp { get; init; }
 
     public static ApiRequest FromBody(Stream body)
     {

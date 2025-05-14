@@ -53,4 +53,11 @@ public class ApiResponse
             Success = false
         };
     }
+
+    public static ApiResponse Error(Exception e)
+    {
+        var message = e.Message == "" ? "No error message available" : e.Message;
+        var cause = e.Source ?? "No available cause";
+        return Error(message + "\n" + cause);
+    }
 }
