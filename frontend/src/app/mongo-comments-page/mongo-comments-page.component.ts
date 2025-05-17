@@ -6,12 +6,12 @@ import {Comment} from '../models';
 import {MatButton, MatButtonModule} from '@angular/material/button';
 
 @Component({
-  selector: 'app-comments-page',
+  selector: 'app-mongo-comments-page',
   imports: [MatInputModule, MatListItem, MatList, MatButtonModule],
-  templateUrl: './comments-page.component.html',
-  styleUrl: './comments-page.component.scss'
+  templateUrl: './mongo-comments-page.component.html',
+  styleUrl: './mongo-comments-page.component.scss'
 })
-export class CommentsPageComponent {
+export class MongoCommentsPageComponent {
 
   @ViewChild('commentInput') commentInput!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('commentListContainer') commentList!: ElementRef<HTMLDivElement>;
@@ -19,7 +19,7 @@ export class CommentsPageComponent {
   protected comments = signal<Comment[]>([]);
 
   constructor(private commentsController: CommentsControllerService) {
-    this.commentsController.fetchComments()
+    this.commentsController.fetchComments("mongo")
       .then(comments => {
         this.comments.set(comments);
         setTimeout(() => {
@@ -32,7 +32,7 @@ export class CommentsPageComponent {
     const comment = this.commentInput.nativeElement.value;
     if (comment && comment.trim() !== '') {
       const newComment = new Comment(comment, new Date().toLocaleTimeString());
-      this.commentsController.addComment(newComment)
+      this.commentsController.addComment(newComment,"mongo")
       .then(response => {
         if (response.Success) {
           this.comments.update(comments => [...comments, newComment]);

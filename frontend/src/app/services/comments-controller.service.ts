@@ -11,8 +11,8 @@ export class CommentsControllerService {
 
   constructor(private http: HttpClient) { }
 
-  fetchComments(): Promise<Comment[]> {
-    const url = 'http://localhost:5000/comments';
+  fetchComments(db: String): Promise<Comment[]> {
+    const url = `http://localhost:5000/comments/${db}`;
     const body = JSON.stringify({
       "Type":"FetchComments"
     })
@@ -32,8 +32,8 @@ export class CommentsControllerService {
     )
   }
 
-  addComment(comment: Comment): Promise<Response> {
-    const url = 'http://localhost:5000/comments';
+  addComment(comment: Comment, db: string): Promise<Response> {
+    const url = `http://localhost:5000/comments/${db}`;
     const body = JSON.stringify({
       "Type":"AddComment",
       "Content": comment.Content,

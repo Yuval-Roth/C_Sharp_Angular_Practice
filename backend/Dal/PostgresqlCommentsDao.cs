@@ -2,7 +2,7 @@
 
 namespace backend.Dal;
 
-public class CommentsDao
+public class PostgresqlCommentsDao
 {
     private const string ConnectionString =
         "Host=localhost;Port=5432;Username=postgres;Password=postgres;Database=c_sharp_angular_practice";

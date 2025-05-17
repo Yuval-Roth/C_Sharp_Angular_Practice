@@ -9,8 +9,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<CommentsDao>();
-builder.Services.AddSingleton<ApiRequestHandler>();
+builder.Services.AddSingleton<PostgresqlCommentsDao>();
+builder.Services.AddSingleton<MongoDbCommentsRepository>();
+builder.Services.AddSingleton<PostgresqlApiRequestHandler>();
+builder.Services.AddSingleton<MongoApiRequestHandler>();
 
 builder.Services.AddCors(options =>
     options.AddPolicy(

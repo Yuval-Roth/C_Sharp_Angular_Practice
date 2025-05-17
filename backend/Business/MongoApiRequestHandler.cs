@@ -4,8 +4,8 @@ using static backend.Utils.ApiRequest.RequestType;
 
 namespace backend.Business;
 
-public class ApiRequestHandler(
-    CommentsDao commentsDao
+public class MongoApiRequestHandler(
+    MongoDbCommentsRepository repository
 )
 {
     
@@ -39,7 +39,7 @@ public class ApiRequestHandler(
 
     private ApiResponse HandleFetchComments(ApiRequest request, out int statusCode)
     {
-        var comments = commentsDao.GetAllComments();
+        var comments = repository.GetAllComments();
         statusCode = StatusCodes.Status200OK;
         return ApiResponse.Ok(comments);
     }
@@ -53,7 +53,7 @@ public class ApiRequestHandler(
         }
 
         Comment comment = new(request.Content, request.Timestamp);
-        if (!commentsDao.AddComment(comment))
+        if (!repository.AddComment(comment))
         {
             statusCode = StatusCodes.Status500InternalServerError;
             return ApiResponse.Error("Failed to add comment");

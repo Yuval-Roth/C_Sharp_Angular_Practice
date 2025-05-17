@@ -7,11 +7,12 @@ namespace backend.Api.Controllers;
 [ApiController]
 [Route("comments")]
 public class CommentsController(
-    ApiRequestHandler handler
+    PostgresqlApiRequestHandler postgresqlHandler,
+    MongoApiRequestHandler mongoHandler
 ) : ControllerBase
 {
-    [HttpPost("")]
-    public IActionResult Comments()
+    [HttpPost("postgresql")]
+    public IActionResult PostgresqlComments()
     {
         ApiRequest request;
         try
@@ -24,6 +25,22 @@ public class CommentsController(
                 .ToActionResult(StatusCodes.Status400BadRequest);
         }
 
-        return handler.HandleRequest(request, out var statusCode).ToActionResult(statusCode);
+        return postgresqlHandler.HandleRequest(request, out var statusCode).ToActionResult(statusCode);
+    }
+    [HttpPost("mongo")]
+    public IActionResult MongoComments()
+    {
+        ApiRequest request;
+        try
+        {
+            request = ApiRequest.FromBody(Request.Body);
+        }
+        catch (Exception)
+        {
+            return ApiResponse.Error("Failed to parse request")
+                .ToActionResult(StatusCodes.Status400BadRequest);
+        }
+
+        return mongoHandler.HandleRequest(request, out var statusCode).ToActionResult(statusCode);
     }
 }
